@@ -12,6 +12,9 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
 
+    font = pygame.font.Font(None, 36)
+    score = 0
+
     
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
@@ -42,11 +45,17 @@ def main():
 
             for shot in shots:
                     if asteroid.collide(shot):
-                        asteroid.split()
+                        score += asteroid.split()
                         shot.kill()
   
         for entity in drawable:
             entity.draw(screen)
+
+        score_text = font.render(f"Score: {score}", True, "white")
+        score_rect = score_text.get_rect()
+        score_rect.topright = (SCREEN_WIDTH - 10, 10)
+        screen.blit(score_text, score_rect)
+
         pygame.display.flip()
         dt = clock.tick(60) / 1000  # Delta time in seconds.
 
